@@ -46,6 +46,7 @@ section > article:hover > div {
 .front img {
     width: 300px;
     height: 400px;
+    border-radius: 5px;
 }
   
 .back {
@@ -53,6 +54,7 @@ section > article:hover > div {
     color: var(--font-color);
     transform: rotateY(180deg);
     padding: 20px;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
 }
