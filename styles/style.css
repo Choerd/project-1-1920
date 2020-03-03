@@ -1,0 +1,83 @@
+:root {
+    --background-color: #FFDE06;
+    --font-color: #921C82;
+    --contrast-color-1: #009E38;
+    --contrast-color-2: #E10715;
+    --contrast-color-3: #5BA5DF;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Lato, Arial, Helvetica, sans-serif;
+}
+
+section > article {
+    background-color: transparent;
+    width: 300px;
+    height: 400px;
+    /* perspective: 1000px; 3D Effect  */
+}
+  
+section > article > div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+  
+section > article:hover > div {
+    transform: rotateY(180deg);
+}
+  
+.front, .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.front img {
+    width: 300px;
+    height: 400px;
+}
+  
+.back {
+    background-color: var(--background-color);
+    color: var(--font-color);
+    transform: rotateY(180deg);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    position: relative;
+}
+
+section {
+    position: absolute;
+    top: 10vh;
+    left: 10vw;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+section article {
+    flex: 0 0 auto;
+}
+
+section article:not(:last-child) {
+    margin-right: 30px;
+}
+
+section article:last-child {
+    margin-right: 10vw;
+}
