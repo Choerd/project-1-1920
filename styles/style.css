@@ -20,7 +20,6 @@ section > article {
     background-color: transparent;
     width: 300px;
     height: 400px;
-    /* perspective: 1000px; 3D Effect  */
 }
   
 section > article > div {
