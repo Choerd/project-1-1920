@@ -1,8 +1,14 @@
 import * as api from '../modules/data.js'
+import * as clean from '../modules/cleaning.js'
 import * as render from '../modules/render.js'
-import * as template from '../templates/yourBook.js'
+import * as template from '../templates/book.js'
+import * as helper from '../modules/helperFunctions.js'
 
-const section = document.querySelector('section')
+const main = document.querySelector('main')
+const personsBooks = document.querySelector('.yourBooks')
+const sampleBooks = document.querySelector('.sampleBooks')
+const detailBooks = document.querySelector('.detailBook')
+
 
 // Data from Excelsheet ObA
 const person = [
@@ -14,7 +20,32 @@ const person = [
 
 routie({
     '': async function () {
-        const yourBooks = await api.getBooks(person)
-        render.books(yourBooks, template.yourBook, section)
+        helper.removeDom(main)
+
+        // Books from person
+        const yourBooks = await api.getPersonalBooks(person, 'personBooks')
+        const cleanedBooks = clean.ISBN(yourBooks)
+        render.books(cleanedBooks, template.overviewPersonBook, main)
+
+        // Simular books
+        const genresOfBooks = helper.filterGenres(yourBooks)
+        const booksPerGenre = await api.getBooksFromCategory(genresOfBooks, 'genreBooks')
+        const cleanedGenreBooks = clean.ISBN(booksPerGenre)
+        const randomizedBooks = helper.shuffleArray(cleanedGenreBooks)
+        render.books(randomizedBooks, template.overviewGenreBook, main)
+    },
+    ':ISBN': async function (isbn) {
+        helper.removeDom(main)
+
+        const yourBooks = await api.getPersonalBooks(person, 'personBooks')
+        const cleanedBooks = clean.ISBN(yourBooks)
+        const genresOfBooks = helper.filterGenres(yourBooks)
+        const booksPerGenre = await api.getBooksFromCategory(genresOfBooks, 'genreBooks')
+        const cleanedGenreBooks = clean.ISBN(booksPerGenre)
+
+        const allBooks = cleanedBooks.concat(cleanedGenreBooks)
+        const clickedBook = allBooks.filter(book => book.isbn === isbn)
+
+        render.books(clickedBook, template.detailBook, main)
     }
 })

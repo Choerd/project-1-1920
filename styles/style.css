@@ -22,7 +22,7 @@ section > article {
     height: 400px;
 }
   
-section > article > div {
+section > article > a > div {
     position: relative;
     width: 100%;
     height: 100%;
@@ -31,7 +31,7 @@ section > article > div {
     transform-style: preserve-3d;
 }
   
-section > article:hover > div {
+section > article:hover > a > div {
     transform: rotateY(180deg);
 }
   
@@ -62,23 +62,32 @@ main {
     position: relative;
 }
 
-section {
-    position: absolute;
-    top: 10vh;
-    left: 10vw;
+.yourBooks {
+    margin: 5vh 10vw 0px 10vw;
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
 }
 
-section article {
+.yourBooks article {
     flex: 0 0 auto;
 }
 
-section article:not(:last-child) {
+.yourBooks article:not(:last-child) {
     margin-right: 30px;
 }
 
-section article:last-child {
+.yourBooks article:last-child {
     margin-right: 10vw;
+}
+
+.sampleBooks {
+    margin: 10vh 10vw 0px 10vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.sampleBooks article {
+    margin-bottom: 30px;
 }

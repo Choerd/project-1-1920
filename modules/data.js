@@ -1,21 +1,38 @@
-export async function getBooks(person) {
+export async function getPersonalBooks(person, name) {
     let books
 
-    if (JSON.parse(localStorage.getItem('personBooks')) === null) {
+    if (JSON.parse(localStorage.getItem(name)) === null) {
         console.log('Data from Fetch')
-        const book = person.map(book => {
-            return fetchData(book.ISBN)
-        })
 
+        const book = person.map(book => fetchData(book.ISBN))
         const rawBooks = await Promise.all(book)
-        books = rawBooks.flat()
 
-        localStorage.setItem('personBooks', JSON.stringify(rawBooks.flat()))
+        localStorage.setItem(name, JSON.stringify(rawBooks.flat()))
+        books = rawBooks.flat()
     } else {
         console.log('Data from LocalStorage')
-        books = JSON.parse(localStorage.getItem('personBooks'))
-    }
 
+        books = JSON.parse(localStorage.getItem(name))
+    }
+    return books
+}
+
+export async function getBooksFromCategory(categories, name) {
+    let books
+
+    if (JSON.parse(localStorage.getItem(name)) === null) {
+        console.log('Data from Fetch')
+
+        const book = categories.map(category => fetchData(category))
+        const rawBooks = await Promise.all(book)
+
+        localStorage.setItem(name, JSON.stringify(rawBooks.flat()))
+        books = rawBooks.flat()
+    } else {
+        console.log('Data from LocalStorage')
+
+        books = JSON.parse(localStorage.getItem(name))
+    }
     return books
 }
 
@@ -29,6 +46,7 @@ async function fetchData(query) {
     const config = {
         Authorization: `Bearer ${secret}`
     }
+
     const response = await fetch(url, config)
     const data = await response.json()
     return data.results
