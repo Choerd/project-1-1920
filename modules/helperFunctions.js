@@ -26,6 +26,6 @@ export function removeDom(element) {
     if (element.children.length >= 1) {
         element.innerHTML = ""
     } else {
-        console.log('Nothing to remove')
+        // console.log('Nothing to remove')
     }
 }

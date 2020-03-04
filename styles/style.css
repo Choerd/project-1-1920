@@ -91,3 +91,11 @@ main {
 .sampleBooks article {
     margin-bottom: 30px;
 }
+
+article[recommend=on] {
+    opacity: 1;
+}
+
+article[recommend=off] {
+    opacity: .3;
+}

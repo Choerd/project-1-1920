@@ -2,7 +2,7 @@ export async function getPersonalBooks(person, name) {
     let books
 
     if (JSON.parse(localStorage.getItem(name)) === null) {
-        console.log('Data from Fetch')
+        // console.log('Data from Fetch')
 
         const book = person.map(book => fetchData(book.ISBN))
         const rawBooks = await Promise.all(book)
@@ -10,7 +10,7 @@ export async function getPersonalBooks(person, name) {
         localStorage.setItem(name, JSON.stringify(rawBooks.flat()))
         books = rawBooks.flat()
     } else {
-        console.log('Data from LocalStorage')
+        // console.log('Data from LocalStorage')
 
         books = JSON.parse(localStorage.getItem(name))
     }
@@ -21,7 +21,7 @@ export async function getBooksFromCategory(categories, name) {
     let books
 
     if (JSON.parse(localStorage.getItem(name)) === null) {
-        console.log('Data from Fetch')
+        // console.log('Data from Fetch')
 
         const book = categories.map(category => fetchData(category))
         const rawBooks = await Promise.all(book)
@@ -29,7 +29,7 @@ export async function getBooksFromCategory(categories, name) {
         localStorage.setItem(name, JSON.stringify(rawBooks.flat()))
         books = rawBooks.flat()
     } else {
-        console.log('Data from LocalStorage')
+        // console.log('Data from LocalStorage')
 
         books = JSON.parse(localStorage.getItem(name))
     }

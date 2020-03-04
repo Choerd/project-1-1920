@@ -33,6 +33,9 @@ routie({
         const cleanedGenreBooks = clean.ISBN(booksPerGenre)
         const randomizedBooks = helper.shuffleArray(cleanedGenreBooks)
         render.books(randomizedBooks, template.overviewGenreBook, main)
+
+        const personBooks = document.querySelectorAll('.yourBooks article')
+        filterThings(personBooks)
     },
     ':ISBN': async function (isbn) {
         helper.removeDom(main)
@@ -44,8 +47,60 @@ routie({
         const cleanedGenreBooks = clean.ISBN(booksPerGenre)
 
         const allBooks = cleanedBooks.concat(cleanedGenreBooks)
-        const clickedBook = allBooks.filter(book => book.isbn === isbn)
 
+        const clickedBook = allBooks.filter(book => book.isbn === isbn)
         render.books(clickedBook, template.detailBook, main)
     }
 })
+
+function filterThings(articles) {
+    let genres = []
+
+    articles.forEach(element => {
+        if (element.attributes[1] != undefined) {
+            genres.push(element.attributes[1].value)
+        }
+    })
+
+    console.log(genres)
+
+    articles.forEach(article => {
+        const articles = document.querySelectorAll('.sampleBooks article')
+
+        article.addEventListener('click', async function () {
+            if (this.getAttribute('recommend') == "on") {
+                this.setAttribute('recommend', 'off')
+
+                genres.splice(genres.indexOf(this.getAttribute('genre')), 1)
+
+                articles.forEach((element, i) => {
+                    const elementGenre = element.getAttribute('genre')
+
+                    genres.forEach(genre => {
+                        if (elementGenre.includes(genre)) {
+                            element.setAttribute('genre', genre)
+                        }
+                    })
+
+                    if (genres.indexOf(element.getAttribute('genre')) > -1) {
+                        element.style.display = 'block'
+                    } else {
+                        element.style.display = 'none'
+                    }
+                })
+
+
+            } else if (this.getAttribute('recommend') == "off") {
+                this.setAttribute('recommend', 'on')
+
+                genres.push(this.getAttribute('genre'))
+
+                genres.forEach(genre => {
+                    console.log(genre)
+                })
+
+                console.log(genres)
+            }
+        })
+    })
+}

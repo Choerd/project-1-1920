@@ -1,8 +1,10 @@
 export const overviewPersonBook = `
 <section class="yourBooks">
 {{#.}}
-<article>
-    <a href="#{{isbn}}">
+
+{{#genres}}<article recommend="on" genre={{genres}}>{{/genres}}
+{{^genres}}<article>{{/genres}}
+    <a>
         <div>
             <div class="front">
                 <img src={{coverimages.1}}>
@@ -24,7 +26,7 @@ export const overviewPersonBook = `
 export const overviewGenreBook = `
 <section class="sampleBooks">
 {{#.}}
-<article>
+    <article genre={{genres}}>
     <a href="#{{isbn}}">
         <div>
             <div class="front">
