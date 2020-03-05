@@ -22,6 +22,7 @@ export async function getBooksFromCategory(categories, name) {
 
     if (JSON.parse(localStorage.getItem(name)) === null) {
         // console.log('Data from Fetch')
+        console.log('ja')
 
         const book = categories.map(category => fetchData(category))
         const rawBooks = await Promise.all(book)
@@ -47,7 +48,13 @@ export async function fetchData(query) {
         Authorization: `Bearer ${secret}`
     }
 
+    document.querySelector('.loading-state').style.display = 'block'
+
     const response = await fetch(url, config)
     const data = await response.json()
+
+    document.querySelector('.loading-state').style.display = 'none'
+
     return data.results
+
 }

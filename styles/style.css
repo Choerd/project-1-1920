@@ -230,3 +230,12 @@ article[recommend=off] {
     align-self: flex-end;
     margin-top: auto;
 }
+
+.loading-state {
+    position: absolute;
+    top: 40%;
+    left: 50vw;
+    transform: translateX(-50%);
+    display: none;
+    z-index: 999;
+}
