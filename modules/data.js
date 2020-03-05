@@ -36,7 +36,7 @@ export async function getBooksFromCategory(categories, name) {
     return books
 }
 
-async function fetchData(query) {
+export async function fetchData(query) {
     const cors = 'https://cors-anywhere.herokuapp.com/'
     const endpoint = 'https://zoeken.oba.nl/api/v1/search/?q='
     const key = '1e19898c87464e239192c8bfe422f280'

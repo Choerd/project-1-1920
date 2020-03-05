@@ -1,14 +1,11 @@
 import * as api from '../modules/data.js'
 import * as clean from '../modules/cleaning.js'
 import * as render from '../modules/render.js'
-import * as template from '../templates/book.js'
+import * as template from '../templates/template.js'
 import * as helper from '../modules/helperFunctions.js'
+import * as interaction from '../modules/interaction.js'
 
 const main = document.querySelector('main')
-const personsBooks = document.querySelector('.yourBooks')
-const sampleBooks = document.querySelector('.sampleBooks')
-const detailBooks = document.querySelector('.detailBook')
-
 
 // Data from Excelsheet ObA
 const person = [
@@ -18,24 +15,54 @@ const person = [
     { "inboekdatum": "02/22/2016", "taal": "dut", "genre": "zeeverhaal", "jaar_publicatie": "2016", "PPN": "400902745", "ISBN": "9789085923404", "matsrt": "JROM", "inschrijf_datum": "11/28/2012", "woonplaats": "AMSTERDAM", "geslacht": "Mannelijk", "Lener": "23267", "Locatie": "SLV", "lencat": "JGD", "exbarc": "10000035760126", "titel": "Muis overboord!", "fm": { " auteur": "Stilton" }, "vn": { " auteur": "Geronimo" }, "kast": "B-STIL", "transtype": "Verlenging", "transdat": "01/01/2018", "geboortejaar": "2010", "postcode": "1064" }
 ]
 
+const genres = [
+    { "genre": "dieren" },
+    { "genre": "zeeverhaal" },
+    { "genre": "racisme" },
+    { "genre": "avonturenroman" },
+    { "genre": "detective" },
+    { "genre": "dokter" }
+]
+
 routie({
-    '': async function () {
+    '': function () {
+        helper.removeDom(main)
+
+        render.htmlWithoutData(template.home, main)
+    },
+    'orienteren': function () {
+        helper.removeDom(main)
+
+        render.html(genres, template.genres, main)
+    },
+    'genre/:category': async function (category) {
+        helper.removeDom(main)
+        console.log(category)
+
+        const booksFromCategory = await api.fetchData(category)
+        const cleanedGenreBooks = clean.ISBN(booksFromCategory)
+
+        render.html(cleanedGenreBooks, template.genresDetails, main)
+    },
+    'gerelateerd_boeken': async function () {
         helper.removeDom(main)
 
         // Books from person
         const yourBooks = await api.getPersonalBooks(person, 'personBooks')
         const cleanedBooks = clean.ISBN(yourBooks)
-        render.books(cleanedBooks, template.overviewPersonBook, main)
+        render.html(cleanedBooks, template.overviewPersonBook, main)
+
+        console.log(cleanedBooks)
 
         // Simular books
         const genresOfBooks = helper.filterGenres(yourBooks)
         const booksPerGenre = await api.getBooksFromCategory(genresOfBooks, 'genreBooks')
         const cleanedGenreBooks = clean.ISBN(booksPerGenre)
         const randomizedBooks = helper.shuffleArray(cleanedGenreBooks)
-        render.books(randomizedBooks, template.overviewGenreBook, main)
+        render.html(randomizedBooks, template.overviewGenreBook, main)
 
         const personBooks = document.querySelectorAll('.yourBooks article')
-        filterThings(personBooks)
+        interaction.filterSampleBooks(personBooks)
     },
     ':ISBN': async function (isbn) {
         helper.removeDom(main)
@@ -47,60 +74,14 @@ routie({
         const cleanedGenreBooks = clean.ISBN(booksPerGenre)
 
         const allBooks = cleanedBooks.concat(cleanedGenreBooks)
-
         const clickedBook = allBooks.filter(book => book.isbn === isbn)
-        render.books(clickedBook, template.detailBook, main)
+
+        render.html(clickedBook, template.detailBook, main)
+
+
+        if (clickedBook == '') {
+            const data = await api.fetchData(isbn)
+            render.html(data, template.detailBook, main)
+        }
     }
 })
-
-function filterThings(articles) {
-    let genres = []
-
-    articles.forEach(element => {
-        if (element.attributes[1] != undefined) {
-            genres.push(element.attributes[1].value)
-        }
-    })
-
-    console.log(genres)
-
-    articles.forEach(article => {
-        const articles = document.querySelectorAll('.sampleBooks article')
-
-        article.addEventListener('click', async function () {
-            if (this.getAttribute('recommend') == "on") {
-                this.setAttribute('recommend', 'off')
-
-                genres.splice(genres.indexOf(this.getAttribute('genre')), 1)
-
-                articles.forEach((element, i) => {
-                    const elementGenre = element.getAttribute('genre')
-
-                    genres.forEach(genre => {
-                        if (elementGenre.includes(genre)) {
-                            element.setAttribute('genre', genre)
-                        }
-                    })
-
-                    if (genres.indexOf(element.getAttribute('genre')) > -1) {
-                        element.style.display = 'block'
-                    } else {
-                        element.style.display = 'none'
-                    }
-                })
-
-
-            } else if (this.getAttribute('recommend') == "off") {
-                this.setAttribute('recommend', 'on')
-
-                genres.push(this.getAttribute('genre'))
-
-                genres.forEach(genre => {
-                    console.log(genre)
-                })
-
-                console.log(genres)
-            }
-        })
-    })
-}
