@@ -37,10 +37,10 @@ routie({
     },
     'genre/:category': async function (category) {
         helper.removeDom(main)
-        console.log(category)
-
         const booksFromCategory = await api.fetchData(category)
         const cleanedGenreBooks = clean.ISBN(booksFromCategory)
+
+        console.log(cleanedGenreBooks)
 
         render.html(cleanedGenreBooks, template.genresDetails, main)
     },
@@ -78,9 +78,9 @@ routie({
 
         render.html(clickedBook, template.detailBook, main)
 
-
         if (clickedBook == '') {
             const data = await api.fetchData(isbn)
+            console.log(data)
             render.html(data, template.detailBook, main)
         }
     }

@@ -23,6 +23,7 @@ header {
     align-items: center;
     justify-content: end;
     box-shadow: 0px 10px 50px 0px rgba(34,34,34,0.3);
+    margin-bottom: 30px;
 }
 
 header img {
@@ -133,11 +134,17 @@ main {
     margin: 0vh 10vw 0px 10vw;
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .yourBooks article {
     flex: 0 0 auto;
+    height: calc(400px + 22px);
+}
+
+.yourBooks article > p {
+    margin: 0;
 }
 
 .yourBooks article:not(:last-child) {
@@ -165,4 +172,61 @@ article[recommend=on] {
 
 article[recommend=off] {
     opacity: .3;
+}
+
+.orient-genre {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80vw;
+    margin-left: 10vw;
+}
+
+.orient-genre a {
+    display: block;
+    width: 45%;
+    padding: 50px 20px;
+    margin: 2.5vw 2.5vh;
+    text-align: center;
+    text-transform: capitalize;
+    text-decoration: none;
+    font-size: 24px;
+    color: #222;
+    font-weight: 800;
+    background-color: rgb(232, 232, 232);
+    border-radius: 5px;
+}
+
+.orient-genre a:hover {
+    background-color: red;
+    color: white;
+}
+
+.book-detailpage {
+    display: flex;
+    width: 80vw;
+    margin: 100px auto 0px;
+}
+
+.book-detailpage div {
+    width: 50vw;
+    margin-left: 3vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-detailpage img {
+    width: 25vw;
+}
+
+.book-detailpage h3 {
+    margin-top: 0px;
+}
+
+.book-detailpage p {
+    margin: 8px 0px 0px 0px;
+}
+
+.book-detailpage p:last-of-type {
+    align-self: flex-end;
+    margin-top: auto;
 }

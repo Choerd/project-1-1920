@@ -6,6 +6,9 @@ export const overviewPersonBook = `
 
 {{#genres}}<article recommend="on" genre={{genres}}>{{/genres}}
 {{^genres}}<article>{{/genres}}
+
+{{#genres}}<p>Genre: {{genres}}</p>{{/genres}}
+{{^genres}}<p>Genre: Onbekend</p>{{/genres}}
     <a>
         <div>
             <div class="front">
@@ -18,7 +21,7 @@ export const overviewPersonBook = `
                 {{#summaries.0}}<p>{{summaries.0}}</p>{{/summaries.0}}
                 {{^summaries.0}}<p>Geen samenvatting beschikbaar</p>{{/summaries.0}}
             </div>
-        </div>
+            </div>
     </a>
 </article>
 {{/.}}
@@ -52,13 +55,20 @@ export const overviewGenreBook = `
 
 export const detailBook = `
 {{#.}}
-<article>
+<article class="book-detailpage">
     <img src={{coverimages.1}}>
-
-    <h1>{{titles.0}}</h1>
-
-    {{#summaries.0}}<p>{{summaries.0}}</p>{{/summaries.0}}
-    {{^summaries.0}}<p>Geen samenvatting beschikbaar</p>{{/summaries.0}}
+    
+    <div>
+    <h3>{{titles.0}}</h3>
+        {{#summaries.0}}<p>{{summaries.0}}</p>{{/summaries.0}}
+        {{^summaries.0}}<p>Geen samenvatting beschikbaar</p>{{/summaries.0}}
+        <p>ISBN: {{isbn}}</p>
+        <p>Talen: {{languages}}</p>
+        <p>Gepubliceerd door: {{publisher}}</p>
+        <p>Voor meer informatie klik 
+            <a href="{{detailLink}}">hier</a>
+        </p>
+    </div>
 </article>
 {{/.}}
 `
@@ -71,10 +81,10 @@ export const home = `
 `
 
 export const genres = `
-<section>
+<section class="orient-genre">
 {{#.}}
     <a href="#genre/{{genre}}">
-        <article class="orient-genre">
+        <article>
             <p>{{genre}}</p>
         </article>
     </a>
@@ -85,7 +95,7 @@ export const genres = `
 export const genresDetails = `
 <section class="sampleBooks">
 {{#.}}
-    <article genre={{genres}}>
+    <article>
     <a href="#{{isbn}}">
         <div>
             <div class="front">
@@ -102,4 +112,5 @@ export const genresDetails = `
     </a>
 </article>
 {{/.}}
-</section>`
+</section>
+`
