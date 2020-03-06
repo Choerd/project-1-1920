@@ -117,13 +117,18 @@ section > article > a > div {
 }
   
 .back {
-    background-color: var(--background-color);
+    background-color: red;
     color: var(--font-color);
     transform: rotateY(180deg);
     padding: 20px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+}
+
+.back h1, .back p {
+    color: white;
+    margin: 6px 0 6px 0;
 }
 
 main {
